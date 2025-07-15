@@ -1,0 +1,647 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CatAIo Companion Bot X1 - Smart Pet Care</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#E8F5E9',      // 淡薄荷绿背景
+                        secondary: '#A5D6A7',    // 中薄荷绿
+                        accent: '#2E7D32',       // 深薄荷绿
+                        metal: '#E0E0E0',        // 金属灰
+                        dark: '#424242',         // 深灰色文本
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .metal-effect {
+                background: linear-gradient(145deg, #f0f0f0, #c9c9c9);
+                box-shadow:  5px 5px 10px #bebebe,
+                            -5px -5px 10px #ffffff;
+            }
+            .metal-button {
+                background: rgba(224, 224, 224, 0.7); /* 半透明背景 */
+                backdrop-filter: blur(8px); /* 毛玻璃效果 */
+                box-shadow:  3px 3px 6px #b8b8b8,
+                            -3px -3px 6px #ffffff;
+                transition: all 0.3s ease;
+            }
+            .metal-button:hover {
+                background: rgba(201, 201, 201, 0.8); /* 悬停时增加透明度 */
+                box-shadow:  5px 5px 10px #bebebe,
+                            -5px -5px 10px #ffffff;
+                transform: translateY(-2px);
+            }
+            .metal-button:active {
+                box-shadow: inset 3px 3px 6px #bebebe,
+                            inset -3px -3px 6px #ffffff;
+            }
+            .accent-button {
+                background: rgba(46, 125, 50, 0.9); /* 半透明背景 */
+                backdrop-filter: blur(8px); /* 毛玻璃效果 */
+                box-shadow:  3px 3px 6px rgba(46, 125, 50, 0.2),
+                            -3px -3px 6px rgba(255, 255, 255, 0.8);
+                transition: all 0.3s ease;
+                color: white;
+            }
+            .accent-button:hover {
+                background: rgba(41, 109, 45, 0.95); /* 悬停时增加透明度 */
+                box-shadow:  5px 5px 10px rgba(46, 125, 50, 0.3),
+                            -5px -5px 10px rgba(255, 255, 255, 0.8);
+                transform: translateY(-2px);
+            }
+            .accent-button:active {
+                box-shadow: inset 3px 3px 6px rgba(41, 109, 45, 0.5),
+                            inset -3px -3px 6px rgba(255, 255, 255, 0.3);
+            }
+            .glass-card {
+                background: rgba(255, 255, 255, 0.7); /* 半透明背景 */
+                backdrop-filter: blur(10px); /* 毛玻璃效果 */
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+        }
+    </style>
+</head>
+<body class="font-inter bg-primary text-dark antialiased">
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-white/80 backdrop-blur-md z-50 border-b border-gray-200">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center">
+                    <img src="img/logobig.png" alt="CatAIo Logo" class="h-8 w-auto">
+                    <span class="ml-2 text-xl font-semibold">CatAIo</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#features" class="text-gray-600 hover:text-accent transition-colors">Features</a>
+                    <a href="#technology" class="text-gray-600 hover:text-accent transition-colors">Technology</a>
+                    <a href="#scenarios" class="text-gray-600 hover:text-accent transition-colors">Scenarios</a>
+                    <a href="#about" class="text-gray-600 hover:text-accent transition-colors">About</a>
+                </div>
+                <div class="flex items-center">
+                    <button class="metal-button px-4 py-2 rounded-full text-sm font-medium mr-3">
+                        Learn More
+                    </button>
+                    <button class="accent-button px-4 py-2 rounded-full text-sm font-medium">
+                        Pre-order
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Video Section -->
+    <section class="pt-16">
+        <div class="relative w-full h-[80vh] bg-gray-900">
+            <!-- Video Placeholder -->
+            <div class="absolute inset-0 flex items-center justify-center">
+                <video id="mainVideo" src="img/main.mp4" poster="img/main.jpg" class="w-full h-full object-cover" controls preload="none">
+                    Your browser does not support the video tag.
+                </video>
+                <button id="playButton" class="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/20 transition-colors">
+                    <div class="metal-button w-16 h-16 rounded-full flex items-center justify-center">
+                        <i class="fa fa-play text-white text-xl"></i>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Visual & Slogan -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="w-full md:w-1/2">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-light text-dark mb-6">
+                        CatAIo Companion Bot X1
+                    </h1>
+                    <p class="text-2xl text-gray-600 mb-8 italic">
+                        made to understand.
+                    </p>
+                    <p class="text-gray-600 mb-8 max-w-lg">
+                        The world's first all-in-one pet care hub that combines AI-powered health monitoring, smart feeding, interactive play, and behavior training—all in one elegant device.
+                    </p>
+                    <div class="flex gap-4">
+                        <button class="metal-button px-6 py-3 rounded-full text-base font-medium">
+                            Explore Features
+                        </button>
+                        <button class="metal-button px-6 py-3 rounded-full text-base font-medium border border-gray-300">
+                            Watch Demo
+                        </button>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 flex justify-center">
+                    <!-- Product Hero Shot -->
+                    <div class="relative w-full max-w-xl aspect-square glass-card rounded-2xl p-4">
+                        <img src="img/zhutu.png" alt="CatAIo Companion Bot X1" class="w-full h-full object-contain">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Selling Points -->
+    <section id="features" class="py-20 bg-primary">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-light text-center mb-16">Key Features</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="glass-card rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="metal-effect w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <i class="fa fa-cubes text-accent text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-medium mb-3">All-in-One Pet Care Hub</h3>
+                    <p class="text-gray-600">
+                        A single device that handles feeding, hydration, monitoring, voice interaction, and play—simplifying your pet care routine.
+                    </p>
+                    <button class="mt-4 text-accent text-sm font-medium hover:underline">
+                        Learn more <i class="fa fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="glass-card rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="metal-effect w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <i class="fa fa-exclamation-triangle text-accent text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-medium mb-3">AI Abnormal Behavior Alert</h3>
+                    <p class="text-gray-600">
+                        Machine learning detects unusual activity patterns and sends instant alerts for potential health issues or emergencies.
+                    </p>
+                    <button class="mt-4 text-accent text-sm font-medium hover:underline">
+                        Learn more <i class="fa fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="glass-card rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="metal-effect w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <i class="fa fa-heartbeat text-accent text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-medium mb-3">AI-Assisted Health Management</h3>
+                    <p class="text-gray-600">
+                        Personalized weight management, health assessments, and smart recommendations for optimal pet wellness.
+                    </p>
+                    <button class="mt-4 text-accent text-sm font-medium hover:underline">
+                        Learn more <i class="fa fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="glass-card rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="metal-effect w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <i class="fa fa-cutlery text-accent text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-medium mb-3">Automated Smart Feeding</h3>
+                    <p class="text-gray-600">
+                        Precision portion control and scheduled feeding based on your pet's age, weight, and eating habits.
+                    </p>
+                    <button class="mt-4 text-accent text-sm font-medium hover:underline">
+                        Learn more <i class="fa fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="glass-card rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="metal-effect w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <i class="fa fa-gamepad text-accent text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-medium mb-3">AI-Controlled Laser Play</h3>
+                    <p class="text-gray-600">
+                        Interactive laser games that adapt to your pet's activity level, keeping them active and engaged.
+                    </p>
+                    <button class="mt-4 text-accent text-sm font-medium hover:underline">
+                        Learn more <i class="fa fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="glass-card rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="metal-effect w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <i class="fa fa-battery-full text-accent text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-medium mb-3">Auto Charging</h3>
+                    <p class="text-gray-600">
+                        Intelligent self-charging when battery drops below 20%, avoiding feeding times for uninterrupted service.
+                    </p>
+                    <button class="mt-4 text-accent text-sm font-medium hover:underline">
+                        Learn more <i class="fa fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Details -->
+    <section id="technology" class="py-20 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-light text-center mb-16">Advanced Technology</h2>
+            
+            <div class="flex flex-col lg:flex-row gap-12 items-center mb-20">
+                <div class="w-full lg:w-1/2">
+                    <img src="img/d1.png" alt="AI Behavior Monitoring" class="w-full h-auto rounded-xl shadow-md">
+                </div>
+                <div class="w-full lg:w-1/2">
+                    <h3 class="text-2xl font-medium mb-4">AI Behavior Analysis</h3>
+                    <p class="text-gray-600 mb-6">
+                        Our advanced AI system learns your pet's eating, drinking, and activity patterns within 3-7 days, establishing a personalized baseline for comparison.
+                    </p>
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-start">
+                            <i class="fa fa-check text-accent mt-1 mr-2"></i>
+                            <span>Real-time abnormality detection and alerts</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check text-accent mt-1 mr-2"></i>
+                            <span>Dual-channel feedback via app and built-in voice assistant</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check text-accent mt-1 mr-2"></i>
+                            <span>Early warning for stress, fever, and other health issues</span>
+                        </li>
+                    </ul>
+                    <button class="metal-button px-5 py-2 rounded-full text-sm font-medium">
+                        View How It Works
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex flex-col lg:flex-row-reverse gap-12 items-center mb-20">
+                <div class="w-full lg:w-1/2">
+                    <img src="img/d2.png" alt="Intelligent Health Management" class="w-full h-auto rounded-xl shadow-md">
+                </div>
+                <div class="w-full lg:w-1/2">
+                    <h3 class="text-2xl font-medium mb-4">Intelligent Health Management</h3>
+                    <p class="text-gray-600 mb-6">
+                        Beyond basic monitoring, our system provides scientific health assessments and personalized recommendations to keep your pet in optimal condition.
+                    </p>
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-start">
+                            <i class="fa fa-check text-accent mt-1 mr-2"></i>
+                            <span>Custom weight management programs</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check text-accent mt-1 mr-2"></i>
+                            <span>Obesity detection and prevention</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check text-accent mt-1 mr-2"></i>
+                            <span>Seamless integration with daily routines</span>
+                        </li>
+                    </ul>
+                    <button class="metal-button px-5 py-2 rounded-full text-sm font-medium">
+                        Explore Health Features
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-12 items-center mb-20">
+                <div class="w-full lg:w-1/2">
+                    <img src="img/d3.png" alt="Advanced Voice Interaction" class="w-full h-auto rounded-xl shadow-md">
+                </div>
+                <div class="w-full lg:w-1/2">
+                    <h3 class="text-2xl font-medium mb-4">Smart Portioning and Scheduling</h3>
+                    <p class="text-gray-600 mb-6">
+                        Our robot can automatically manage pets' diet.
+                    </p>
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-start">
+                            <i class="fa fa-check text-accent mt-1 mr-2"></i>
+                            <span>Smart Portioning and Scheduling</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check text-accent mt-1 mr-2"></i>
+                            <span>Real-Time Water Quality Monitoring</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check text-accent mt-1 mr-2"></i>
+                            <span>Easy-Clean and Anti-Jam Design</span>
+                        </li>
+                    </ul>
+                    <button class="metal-button px-5 py-2 rounded-full text-sm font-medium">
+                        Try Voice Commands
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex flex-col lg:flex-row-reverse gap-12 items-center">
+                <div class="w-full lg:w-1/2">
+                    <img src="img/d4.png" alt="Smart Environment Adaptation" class="w-full h-auto rounded-xl shadow-md">
+                </div>
+                <div class="w-full lg:w-1/2">
+                    <h3 class="text-2xl font-medium mb-4">Smart Environment Adaptation</h3>
+                    <p class="text-gray-600 mb-6">
+                        These functions feature AI-based real-time pet behavior recognition, dangerous behavior alerts, personalized training programs with positive reinforcement, and remote training support via a mobile app.
+                    </p>
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-start">
+                            <i class="fa fa-check text-accent mt-1 mr-2"></i>
+                            <span>AI Behavior Recognition</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check text-accent mt-1 mr-2"></i>
+                            <span>Dangerous Behavior Alerts</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check text-accent mt-1 mr-2"></i>
+                            <span>Positive Reinforcement Training</span>
+                        </li>
+                    </ul>
+                    <button class="metal-button px-5 py-2 rounded-full text-sm font-medium">
+                        See It In Action
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Features -->
+    <section class="py-20 bg-primary">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-light text-center mb-16">Interactive Experience</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="glass-card rounded-xl overflow-hidden shadow-sm">
+                    <div class="h-56 overflow-hidden">
+                        <img src="img/d5.png" alt="AI Laser Play" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-medium mb-2">AI-Powered Laser Play</h3>
+                        <p class="text-gray-600 mb-4">
+                            Smart position tracking and adaptive play modes keep your pet active and engaged, even when you're away.
+                        </p>
+                        <div class="flex space-x-2">
+                            <button class="metal-button px-3 py-1 rounded-full text-xs font-medium">
+                                Random Patterns
+                            </button>
+                            <button class="metal-button px-3 py-1 rounded-full text-xs font-medium">
+                                Adaptive Speed
+                            </button>
+                            <button class="metal-button px-3 py-1 rounded-full text-xs font-medium">
+                                Remote Control
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-xl overflow-hidden shadow-sm">
+                    <div class="h-56 overflow-hidden">
+                        <img src="img/d6.jpeg" alt="Behavior Training" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-medium mb-2">Custom Behavior Training</h3>
+                        <p class="text-gray-600 mb-4">
+                            Personalized training programs help correct unwanted behaviors through positive reinforcement.
+                        </p>
+                        <div class="flex space-x-2">
+                            <button class="metal-button px-3 py-1 rounded-full text-xs font-medium">
+                                Anti-Scratch Mode
+                            </button>
+                            <button class="metal-button px-3 py-1 rounded-full text-xs font-medium">
+                                Boundary Training
+                            </button>
+                            <button class="metal-button px-3 py-1 rounded-full text-xs font-medium">
+                                Voice Commands
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Usage Scenarios -->
+    <section id="scenarios" class="py-20 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-light text-center mb-16">Perfect For Every Situation</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="group relative rounded-xl overflow-hidden h-80">
+                    <img src="img/d6.png" alt="Daytime Monitoring" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6">
+                        <h3 class="text-white text-xl font-medium mb-2">Daytime Monitoring</h3>
+                        <p class="text-gray-200 text-sm">
+                            Keep an eye on your pet while at work with real-time updates and activity alerts.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="group relative rounded-xl overflow-hidden h-80">
+                    <img src="img/d8.png" alt="Feeding Schedule" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6">
+                        <h3 class="text-white text-xl font-medium mb-2">Consistent Feeding</h3>
+                        <p class="text-gray-200 text-sm">
+                            Maintain perfect feeding schedules even with irregular work hours or travel.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="group relative rounded-xl overflow-hidden h-80">
+                    <img src="img/d7.png" alt="Remote Interaction" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6">
+                        <h3 class="text-white text-xl font-medium mb-2">Remote Interaction</h3>
+                        <p class="text-gray-200 text-sm">
+                            Play and communicate with your pet from anywhere using your smartphone.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Integration -->
+    <section class="py-20 bg-primary">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="w-full md:w-1/2 order-2 md:order-1">
+                    <h3 class="text-2xl font-medium mb-4">Smartphone Integration</h3>
+                    <p class="text-gray-600 mb-6">
+                        Control every aspect of your CatAIo Companion Bot X1 through our intuitive mobile app, giving you complete control and peace of mind wherever you are.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4 mb-8">
+                        <div class="glass-card p-4 rounded-lg shadow-sm">
+                            <i class="fa fa-mobile text-3xl text-accent mb-2"></i>
+                            <h4 class="font-medium mb-1">Remote Monitoring</h4>
+                            <p class="text-gray-600 text-sm">Real-time video and activity updates</p>
+                        </div>
+                        <div class="glass-card p-4 rounded-lg shadow-sm">
+                            <i class="fa fa-cutlery text-3xl text-accent mb-2"></i>
+                            <h4 class="font-medium mb-1">Feeding Control</h4>
+                            <p class="text-gray-600 text-sm">Adjust portions and schedules</p>
+                        </div>
+                        <div class="glass-card p-4 rounded-lg shadow-sm">
+                            <i class="fa fa-comments text-3xl text-accent mb-2"></i>
+                            <h4 class="font-medium mb-1">Voice Interaction</h4>
+                            <p class="text-gray-600 text-sm">Talk to your pet remotely</p>
+                        </div>
+                        <div class="glass-card p-4 rounded-lg shadow-sm">
+                            <i class="fa fa-line-chart text-3xl text-accent mb-2"></i>
+                            <h4 class="font-medium mb-1">Health Reports</h4>
+                            <p class="text-gray-600 text-sm">Track wellness trends over time</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <button class="metal-button px-4 py-2 rounded-full text-sm font-medium">
+                            <i class="fa fa-apple mr-2"></i> App Store
+                        </button>
+                        <button class="metal-button px-4 py-2 rounded-full text-sm font-medium">
+                            <i class="fa fa-android mr-2"></i> Google Play
+                        </button>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 order-1 md:order-2 flex justify-center">
+                    <img src="img/dapp.png" alt="Mobile App Interface" class="max-w-xs rounded-3xl shadow-xl border-8 border-gray-800">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About the Brand -->
+    <section id="about" class="py-20 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl text-center">
+            <img src="img/logobig.png" alt="CatAIo" class="h-24 w-auto mx-auto mb-8">
+            <h2 class="text-3xl font-light mb-6">A Thoughtful Companion for Your Cat</h2>
+            <p class="text-gray-600 mb-8 leading-relaxed">
+                At CatAIo, we believe technology should enhance the bond between you and your pet, not replace it. Our Companion Bot X1 is designed with both scientific precision and genuine empathy, 
+                creating a seamless blend of intelligent care and heartfelt companionship.
+            </p>
+            <p class="text-gray-600 leading-relaxed">
+                Every feature is thoughtfully engineered to understand your pet's unique needs and behaviors, providing the care they deserve when you can't be there. Because we know your 
+                furry friend isn't just a pet—they're family.
+            </p>
+        </div>
+    </section>
+
+    <!-- Pre-order Section -->
+    <section class="py-20 bg-gray-900 text-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl md:text-4xl font-light mb-6">Ready to Transform Pet Care?</h2>
+            <p class="text-gray-300 max-w-2xl mx-auto mb-10">
+                Be among the first to experience the future of pet care with CatAIo Companion Bot X1. Pre-order now to secure your device.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button class="accent-button px-8 py-3 rounded-full text-base font-medium">
+                    Pre-order Now
+                </button>
+                <button class="metal-button px-8 py-3 rounded-full text-base font-medium border border-gray-600">
+                    Contact Sales
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 py-12">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between mb-8">
+                <div class="mb-8 md:mb-0">
+                    <div class="flex items-center mb-4">
+                        <img src="img/logobig.png" alt="CatAIo Logo" class="h-8 w-auto">
+                        <span class="ml-2 text-xl font-semibold">CatAIo</span>
+                    </div>
+                    <p class="text-gray-600 max-w-xs">
+                        Revolutionizing pet care through intelligent technology and genuine empathy.
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+                    <div>
+                        <h4 class="font-medium mb-4">Product</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-600 hover:text-accent">Features</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-accent">Specifications</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-accent">Accessories</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-accent">FAQs</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-medium mb-4">Company</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-600 hover:text-accent">About Us</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-accent">Careers</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-accent">Press</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-accent">Contact</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-medium mb-4">Support</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-600 hover:text-accent">Help Center</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-accent">Warranty</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-accent">Shipping</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-accent">Returns</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 text-sm mb-4 md:mb-0">
+                    © 2023 CatAIo. All rights reserved.
+                </p>
+                <div class="flex space-x-4">
+                    <a href="#" class="metal-effect w-8 h-8 rounded-full flex items-center justify-center text-gray-600 hover:text-accent">
+                        <i class="fa fa-facebook"></i>
+                    </a>
+                    <a href="#" class="metal-effect w-8 h-8 rounded-full flex items-center justify-center text-gray-600 hover:text-accent">
+                        <i class="fa fa-twitter"></i>
+                    </a>
+                    <a href="#" class="metal-effect w-8 h-8 rounded-full flex items-center justify-center text-gray-600 hover:text-accent">
+                        <i class="fa fa-instagram"></i>
+                    </a>
+                    <a href="#" class="metal-effect w-8 h-8 rounded-full flex items-center justify-center text-gray-600 hover:text-accent">
+                        <i class="fa fa-youtube-play"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    </body></html>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const video = document.getElementById('mainVideo');
+        const playButton = document.getElementById('playButton');
+        
+        playButton.addEventListener('click', function() {
+            if (video.paused) {
+                video.play();
+                playButton.style.opacity = '0';
+                playButton.style.pointerEvents = 'none';
+            } else {
+                video.pause();
+                playButton.style.opacity = '1';
+                playButton.style.pointerEvents = 'auto';
+            }
+        });
+        
+        video.addEventListener('ended', function() {
+            playButton.style.opacity = '1';
+            playButton.style.pointerEvents = 'auto';
+        });
+    });
+</script>
+</html>
